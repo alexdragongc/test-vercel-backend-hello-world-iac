@@ -1,0 +1,29 @@
+name: Apply OpenTofu Plan
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    name: Apply approved plan
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: tofu apply
+        uses: dflook/tofu-apply@v2
+        with:
+          path: .infrastructure
