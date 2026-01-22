@@ -30,7 +30,7 @@ resource "vercel_project" "my_project" {
   git_comments                                      = null
   git_fork_protection                               = true
   git_lfs                                           = false
-  git_provider_options                              = null
+  # git_provider_options                              = null.   # gives a lint error in vscode for some reason?
   git_repository = {
     deploy_hooks      = null
     production_branch = "master"
