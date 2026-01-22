@@ -11,7 +11,3 @@ terraform {
     }
   }
 }
-
-output "infrastructure_initialized" {
-  value = "Backend configured successfully"
-}
