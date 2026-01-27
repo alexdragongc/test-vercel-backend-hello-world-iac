@@ -27,4 +27,4 @@ jobs:
         with:
           path: .infrastructure
           label: production
-          var_file: env/production.tfvars
+          var_file: .infrastructure/env/production.tfvars
