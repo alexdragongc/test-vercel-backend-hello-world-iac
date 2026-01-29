@@ -17,6 +17,7 @@ env:
 jobs:
   plan:
     runs-on: ubuntu-latest
+    environment: tofu-plan
     name: Create OpenTofu Plan
     steps:
       - name: Checkout Code
