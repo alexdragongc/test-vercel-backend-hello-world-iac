@@ -3,7 +3,7 @@ name: Generate OpenTofu Plan
 on: 
   pull_request:
     paths:
-      - ".infrastructure"
+      - ".infrastructure/**"
 
 
 permissions:
