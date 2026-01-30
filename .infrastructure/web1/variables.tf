@@ -1,3 +1,8 @@
+variable "project_name" {
+  description = "The unique name of the project at the IaC level (eg: 'web', 'serverless')"
+  type = string
+}
+
 variable "environment" {
   description = "The environment to deploy into"
   type        = string
