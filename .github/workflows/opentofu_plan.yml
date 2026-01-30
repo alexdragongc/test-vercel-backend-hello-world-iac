@@ -26,12 +26,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Tofu Plan
+      - name: Web1 - Tofu Plan
         uses: dflook/tofu-plan@v2
         env:
           VERCEL_API_TOKEN: ${{ secrets.PLAN_SECRETS_VERCEL_API_TOKEN }}
         with:
           add_github_comment: changes-only
-          path: .infrastructure
+          path: .infrastructure/web1
           label: production
-          var_file: .infrastructure/env/production.tfvars
+          var_file: .infrastructure/web1/env/production.tfvars

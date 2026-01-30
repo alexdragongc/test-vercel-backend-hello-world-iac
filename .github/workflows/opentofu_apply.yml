@@ -22,7 +22,7 @@ env:
 jobs:
   apply:
     runs-on: ubuntu-latest
-    name: Apply approved plan
+    name: Web1 - Apply approved plan
 
     steps:
       - name: Checkout
@@ -31,6 +31,6 @@ jobs:
       - name: tofu apply
         uses: dflook/tofu-apply@v2
         with:
-          path: .infrastructure
+          path: .infrastructure/web1
           label: production
-          var_file: .infrastructure/env/production.tfvars
+          var_file: .infrastructure/web1/env/production.tfvars
