@@ -21,9 +21,18 @@ env:
   TF_VAR_passphrase: ${{ secrets.TF_VAR_PASSPHRASE }}
 
 jobs:
-  apply-web1:
+  apply:
     runs-on: ubuntu-latest
-    name: Web1 - Apply approved plan
+    name: Apply approved Plan (${{ matrix.app }} / ${{ matrix.env }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [web1, web2]
+        env: [production, staging]
+        exclude:
+          - app: web2
+            env: staging
 
     steps:
       - name: Checkout
@@ -32,23 +41,7 @@ jobs:
       - name: tofu apply
         uses: dflook/tofu-apply@v2
         with:
-          path: .infrastructure/web1
-          label: web1/production
+          path: .infrastructure/${{ matrix.app }}
+          label: ${{ matrix.app }}/${{ matrix.env }}
           backend_config: ../common/_backend_config.tfvars
-          var_file: .infrastructure/web1/env/production.tfvars
-
-  apply-web2:
-    runs-on: ubuntu-latest
-    name: Web2 - Apply approved plan
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: tofu apply
-        uses: dflook/tofu-apply@v2
-        with:
-          path: .infrastructure/web2
-          label: web2/production
-          backend_config: ../common/_backend_config.tfvars
-          var_file: .infrastructure/web1/env/production.tfvars
+          var_file: .infrastructure/${{ matrix.app }}/env/${{ matrix.env }}.tfvars
