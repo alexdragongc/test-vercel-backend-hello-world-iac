@@ -21,31 +21,28 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     environment: tofu-plan
-    name: ${{ matrix.app.name }} - Create OpenTofu Plan
+    name: Create OpenTofu Plan (${{ matrix.app }} / ${{ matrix.env }})
 
     strategy:
       fail-fast: false
       matrix:
-        app:
-          - name: Web1
-            dir: web1
-            env: [production, staging]
-
-          - name: Web2
-            dir: web2
-            env: production
+        app: [web1, web2]
+        env: [production, staging]
+        exclude:
+          - app: web2
+          - env: staging
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: ${{ matrix.app.name }} - Tofu Plan
+      - name: Tofu Plan
         uses: dflook/tofu-plan@v2
         env:
           VERCEL_API_TOKEN: ${{ secrets.PLAN_SECRETS_VERCEL_API_TOKEN }}
         with:
           add_github_comment: changes-only
-          path: .infrastructure/${{ matrix.app.dir }}
-          label: ${{ matrix.app.dir }}/${{ matrix.app.env }}
+          path: .infrastructure/${{ matrix.app }}
+          label: ${{ matrix.app }}/${{ matrix.env }}
           backend_config: ../common/_backend_config.tfvars
-          var_file: .infrastructure/${{ matrix.app.dir }}/env/${{ matrix.app.env }}.tfvars
+          var_file: .infrastructure/${{ matrix.app }}/env/${{ matrix.env }}.tfvars
