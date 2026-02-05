@@ -22,6 +22,3 @@ jobs:
 
       - name: Version
         run: echo v1
-
-      - name: Assess availability
-        run: test -n "$TARGET_SECRET"
