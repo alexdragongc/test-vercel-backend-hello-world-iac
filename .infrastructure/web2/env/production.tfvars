@@ -1,3 +1,3 @@
 # production.tfvars
 environment = "production"
-dev_command = "echo 'hello World web 2!' && npm run dev"
+dev_command = "echo 'Hello World, Web 2!' && npm run dev"
