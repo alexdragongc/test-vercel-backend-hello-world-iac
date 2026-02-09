@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          (v1) echo A comment on PR $NUMBER
+          echo (v2) A comment on PR $NUMBER
         env:
           NUMBER: ${{ github.event.issue.number }}
 
@@ -19,6 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          (v1) echo A comment on issue $NUMBER
+          echo (v2) A comment on issue $NUMBER
         env:
           NUMBER: ${{ github.event.issue.number }}
