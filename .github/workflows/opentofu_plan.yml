@@ -2,6 +2,7 @@ name: Generate OpenTofu Plan
 
 on:
   issue_comment:
+    types: [created, edited]
 
 permissions:
   contents: read
