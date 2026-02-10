@@ -16,7 +16,6 @@ runs:
         script: |
           const org = context.repo.owner;
           const repo = context.repo.repo;
-          const team_slug = core.getInput("team_slug");
           const username = context.payload.comment.user.login;
           const team_slug = core.getInput("team_slug");
 
