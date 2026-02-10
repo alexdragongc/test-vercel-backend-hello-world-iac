@@ -11,9 +11,6 @@ inputs:
   job_name:
     description: The job calling the action (display name)
     required: true
-  github_token:
-    description: Token used to query org/team membership (PAT with read:org recommended)
-    required: false
 
 runs:
   using: "composite"
@@ -22,12 +19,11 @@ runs:
       id: auth
       uses: actions/github-script@v7
       env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
         ORG_SLUG: ${{ inputs.org_slug }}
         TEAM_SLUG: ${{ inputs.team_slug }}
         JOB_NAME: ${{ inputs.job_name }}
       with:
-        # IMPORTANT: pass token explicitly so we can use a PAT if provided
-        github-token: ${{ inputs.github_token || github.token }}
         script: |
           const org = process.env.ORG_SLUG;
           const team_slug = process.env.TEAM_SLUG;
@@ -83,11 +79,11 @@ runs:
       if: steps.auth.outputs.authorized != 'true'
       uses: actions/github-script@v7
       env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
         ORG_SLUG: ${{ inputs.org_slug }}
         TEAM_SLUG: ${{ inputs.team_slug }}
         JOB_NAME: ${{ inputs.job_name }}
       with:
-        github-token: ${{ github.token }}
         script: |
           const owner = context.repo.owner;
           const repo  = context.repo.repo;
