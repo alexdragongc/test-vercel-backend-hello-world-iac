@@ -11,6 +11,9 @@ inputs:
   job_name:
     description: The job calling the action (display name)
     required: true
+  github_org_access_token:
+    description: A GitHub token with the `read:org` permission
+    required: true
 
 runs:
   using: "composite"
@@ -19,11 +22,11 @@ runs:
       id: auth
       uses: actions/github-script@v7
       env:
-        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
         ORG_SLUG: ${{ inputs.org_slug }}
         TEAM_SLUG: ${{ inputs.team_slug }}
         JOB_NAME: ${{ inputs.job_name }}
       with:
+        github-token: ${{ inputs.github_org_access_token }}
         script: |
           const org = process.env.ORG_SLUG;
           const team_slug = process.env.TEAM_SLUG;
@@ -63,7 +66,7 @@ runs:
                 "error",
                 `Cannot verify membership for @${username} in @${org}/${team_slug}. ` +
                 `GitHub returned 404. This can mean the user is not a member, the team/org slug is wrong, ` +
-                `or the token lacks permission to read org/team membership (often requires a PAT with read:org).`
+                `or the token cannot read org/team membership.`
               );
               return;
             }
@@ -79,11 +82,12 @@ runs:
       if: steps.auth.outputs.authorized != 'true'
       uses: actions/github-script@v7
       env:
-        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
         ORG_SLUG: ${{ inputs.org_slug }}
         TEAM_SLUG: ${{ inputs.team_slug }}
         JOB_NAME: ${{ inputs.job_name }}
       with:
+        # For commenting on the PR, the normal workflow token is fine
+        github-token: ${{ github.token }}
         script: |
           const owner = context.repo.owner;
           const repo  = context.repo.repo;
