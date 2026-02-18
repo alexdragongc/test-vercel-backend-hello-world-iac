@@ -39,7 +39,7 @@ resource "vercel_project" "my_project" {
   }
   ignore_command  = "exit 0"
   install_command = null
-  name            = "my-express-backend"
+  name            = var.project_name
   node_version    = "22.x"
   oidc_token_config = {
     issuer_mode = "team"
