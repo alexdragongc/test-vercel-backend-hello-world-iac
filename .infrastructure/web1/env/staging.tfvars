@@ -1,2 +1,0 @@
-# staging.tfvars
-environment = "staging"
