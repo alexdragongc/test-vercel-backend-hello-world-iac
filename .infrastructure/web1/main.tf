@@ -34,7 +34,7 @@ resource "vercel_project" "my_project" {
   git_repository = {
     deploy_hooks      = null
     production_branch = "main"
-    repo              = "alexangc/test-vercel-backend-hello-world-iac"
+    repo              = "alexdragongc/test-vercel-backend-hello-world-iac"
     type              = "github"
   }
   ignore_command  = null
