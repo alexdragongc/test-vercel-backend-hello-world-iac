@@ -20,10 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         app: [web1, web2]
-        env: [production, staging]
-        exclude:
-          - app: web2
-            env: staging
+        env: [production]
 
     steps:
       - name: Checkout code from `main` (safe and reviewed)
