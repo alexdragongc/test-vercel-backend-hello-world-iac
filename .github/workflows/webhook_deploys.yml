@@ -17,7 +17,7 @@ jobs:
 
       - name: Trigger Vercel Deploy Hook
         run: |
-          curl -s -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}" \
+          DEPLOY_HOOK_URL=$(tofu -chdir=".infrastructure/web1" output -var-file="env/production.tfvars" -raw tofu_web1_deploy_hook_url)
+          curl -s -X POST "$DEPLOY_HOOK_URL" \
             --fail \
             --show-error
-
