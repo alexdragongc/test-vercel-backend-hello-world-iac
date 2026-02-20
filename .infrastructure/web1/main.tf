@@ -16,7 +16,7 @@ terraform {
 resource "vercel_project" "my_project" {
   auto_assign_custom_domains                        = true
   automatically_expose_system_environment_variables = false
-  build_command                                     = "sleep 120"
+  build_command                                     = "sleep 30"
   build_machine_type                                = null
   customer_success_code_visibility                  = false
   dev_command                                       = var.dev_command
@@ -32,7 +32,12 @@ resource "vercel_project" "my_project" {
   git_lfs                                           = false
   # git_provider_options                              = null.   # gives a lint error in vscode for some reason?
   git_repository = {
-    deploy_hooks      = null
+    deploy_hooks = [
+      {
+        name = "deploy-from-tofu-workflows"
+        ref  = "main"
+      }
+    ]
     production_branch = "main"
     repo              = "alexdragongc/test-vercel-backend-hello-world-iac"
     type              = "github"
@@ -67,4 +72,11 @@ resource "vercel_project" "my_project" {
   vercel_authentication = {
     deployment_type = "standard_protection_new"
   }
+}
+output "tofu_web1_deploy_hook_url" {
+  value = [
+    for hook in vercel_project.my_project.git_repository.deploy_hooks : hook.url
+    if hook.name == "deploy-from-tofu-workflows"
+  ][0]
+  sensitive = true
 }
