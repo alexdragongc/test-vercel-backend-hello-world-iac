@@ -13,7 +13,16 @@ terraform {
 
 }
 
-provider "vercel" {}
+
+variable "vercel_api_token" {
+  type      = string
+  ephemeral = true
+  sensitive = true
+}
+
+provider "vercel" {
+  api_token = var.vercel_api_token
+}
 
 resource "vercel_project" "my_project" {
   auto_assign_custom_domains                        = true
