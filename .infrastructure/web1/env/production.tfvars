@@ -1,2 +1,3 @@
 # production.tfvars
-environment = "production"
+environment       = "production"
+my_secret_version = 1
