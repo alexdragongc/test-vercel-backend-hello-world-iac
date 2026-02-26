@@ -5,6 +5,7 @@ app.use(json());
 
 app.get("/", (_req, res) => {
   res.send("Hello, World! This is a basic Express app deployed on Vercel.");
+  console.log(process.env);
 });
 
 app.get("/api/hello", (_, res) => {
