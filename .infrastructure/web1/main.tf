@@ -13,6 +13,8 @@ terraform {
 
 }
 
+provider "vercel" {}
+
 resource "vercel_project" "my_project" {
   auto_assign_custom_domains                        = true
   automatically_expose_system_environment_variables = false
