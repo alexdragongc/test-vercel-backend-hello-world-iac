@@ -123,7 +123,7 @@ resource "vercel_project_environment_variable" "my_secret" {
   value_wo = var.my_secret_var # write-only
 
   target    = ["production"]
-  sensitive = true
+  sensitive = false
 
   lifecycle {
     replace_triggered_by = [
