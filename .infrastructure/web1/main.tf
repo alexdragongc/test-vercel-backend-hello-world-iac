@@ -96,6 +96,15 @@ variable "my_secret_var" {
   ephemeral = true
 }
 
+variable "my_secret_version" {
+  type = number
+}
+
+# Dummy resource that tracks version in state
+resource "terraform_data" "my_secret_version" {
+  input = var.my_secret_version
+}
+
 resource "vercel_project_environment_variable" "my_secret" {
   project_id = vercel_project.my_project.id
   key        = "MY_SECRET_API_KEY"
@@ -104,4 +113,10 @@ resource "vercel_project_environment_variable" "my_secret" {
 
   target    = ["production"]
   sensitive = true
+
+  lifecycle {
+    replace_triggered_by = [
+      terraform_data.my_secret_version
+    ]
+  }
 }
