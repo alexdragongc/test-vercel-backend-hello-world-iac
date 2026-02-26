@@ -81,3 +81,11 @@ output "tofu_web1_deploy_hook_url" {
   ][0]
   sensitive = true
 }
+
+resource "vercel_project_environment_variable" "public_api_url" {
+  project_id = vercel_project.my_project.id
+  key        = "PUBLIC_API_URL"
+  value      = "https://web1-git-main-alexmiranda-7604s-projects.vercel.app/api"
+  target     = ["production"]
+  comment    = "a production variable"
+}
