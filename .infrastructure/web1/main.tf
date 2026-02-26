@@ -6,8 +6,8 @@ terraform {
     }
 
     vercel = {
-      source  = "vercel/vercel"
-      version = ">= 2.0"
+      source  = "registry.terraform.io/vercel/vercel"
+      version = "~> 4.6.0"
     }
   }
 
@@ -88,4 +88,21 @@ resource "vercel_project_environment_variable" "public_api_url" {
   value      = "https://web1-git-main-alexmiranda-7604s-projects.vercel.app/api"
   target     = ["production"]
   comment    = "a production variable"
+}
+
+
+variable "my_secret_var" {
+  type      = string
+  ephemeral = true
+  default   = "123"
+}
+
+resource "vercel_project_environment_variable" "my_secret" {
+  project_id = vercel_project.my_project.id
+  key        = "MY_SECRET_API_KEY"
+
+  value_wo = var.my_secret_var # write-only
+
+  target    = ["production"]
+  sensitive = true
 }
