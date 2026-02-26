@@ -13,12 +13,15 @@ permissions:
   pull-requests: write
 
 env:
+  # `GITHUB_TOKEN` is automatically set as secret by GitHub when
+  # starting a workflow, so we don't need to add it manually
   TF_INPUT: "0"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  VERCEL_API_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
+  VERCEL_API_TOKEN: ${{ secrets.VERCEL_ACCOUNT_TOKEN }}
   TF_VAR_passphrase: ${{ secrets.TF_VAR_PASSPHRASE }}
+  TF_VAR_my_secret_var: ${{ secrets.TF_VAR_MY_SECRET_VAR }}
 
 jobs:
   apply:
@@ -63,16 +66,6 @@ jobs:
       - name: Gathering Tofu Output
         uses: dflook/tofu-output@v2
         id: tf-outputs
-        env:
-          # `GITHUB_TOKEN` is automatically set as secret by GitHub when
-          # starting a workflow, so we don't need to add it manually
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TF_INPUT: "0" # We explicitly disable interactive commands
-          VERCEL_API_TOKEN: ${{ secrets.VERCEL_ACCOUNT_TOKEN }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          TF_VAR_passphrase: ${{ secrets.TF_VAR_PASSPHRASE }}
-          TF_VAR_my_secret_var: ${{ secrets.TF_VAR_MY_SECRET_VAR }}
         with:
           path: .infrastructure/${{ matrix.app }}
           backend_config: ../common/_backend_config.tfvars
