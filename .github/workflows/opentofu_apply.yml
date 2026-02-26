@@ -24,6 +24,7 @@ jobs:
   apply:
     runs-on: ubuntu-latest
     name: Apply approved Plan (${{ matrix.app }} / ${{ matrix.env }})
+    environment: tofu-production
 
     strategy:
       fail-fast: false
@@ -33,7 +34,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: tofu apply
         uses: dflook/tofu-apply@v2
@@ -42,3 +43,42 @@ jobs:
           label: ${{ matrix.app }}/${{ matrix.env }}
           backend_config: ../common/_backend_config.tfvars
           var_file: .infrastructure/${{ matrix.app }}/env/${{ matrix.env }}.tfvars
+
+  deploy-after-changes:
+    needs: [apply]
+    name: Deploy to Vercel after IaC changes
+    runs-on: ubuntu-latest
+    environment: tofu-production
+
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [web1]
+        env: [production]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Gathering Tofu Output
+        uses: dflook/tofu-output@v2
+        id: tf-outputs
+        env:
+          # `GITHUB_TOKEN` is automatically set as secret by GitHub when
+          # starting a workflow, so we don't need to add it manually
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TF_INPUT: "0" # We explicitly disable interactive commands
+          VERCEL_API_TOKEN: ${{ secrets.VERCEL_ACCOUNT_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          TF_VAR_passphrase: ${{ secrets.TF_VAR_PASSPHRASE }}
+        with:
+          path: .infrastructure/${{ matrix.app }}
+          backend_config: ../common/_backend_config.tfvars
+          var_file: .infrastructure/${{ matrix.app }}/env/${{ matrix.env }}.tfvars
+
+      - name: Trigger Vercel Deploy Hook
+        run: |
+          curl -s -X POST "${{ steps.tf-outputs.outputs.tofu_web1_deploy_hook_url }}" \
+            --fail \
+            --show-error
