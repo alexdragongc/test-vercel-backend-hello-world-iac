@@ -100,6 +100,10 @@ variable "my_secret_version" {
   type = number
 }
 
+# Dummy resource that tracks version in state
+resource "terraform_data" "my_secret_version" {
+  input = var.my_secret_version
+}
 
 resource "vercel_project_environment_variable" "my_secret" {
   project_id = vercel_project.my_project.id
@@ -112,7 +116,7 @@ resource "vercel_project_environment_variable" "my_secret" {
 
   lifecycle {
     replace_triggered_by = [
-      var.my_secret_version
+      terraform_data.my_secret_version
     ]
   }
 }
