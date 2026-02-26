@@ -94,7 +94,6 @@ resource "vercel_project_environment_variable" "public_api_url" {
 variable "my_secret_var" {
   type      = string
   ephemeral = true
-  default   = "123"
 }
 
 resource "vercel_project_environment_variable" "my_secret" {
