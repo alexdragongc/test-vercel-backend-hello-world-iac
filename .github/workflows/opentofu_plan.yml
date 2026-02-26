@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Checkout code from `main` (safe and reviewed)
         # (the checkout from `main` is caused by `pull_request_target`)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Require senior approval of the plan run
         uses: ./.github/actions/require-team-membership
