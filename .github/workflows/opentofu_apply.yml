@@ -19,8 +19,8 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  VERCEL_API_TOKEN: ${{ secrets.VERCEL_ACCOUNT_TOKEN }}
-  TF_VAR_vercel_api_token: ${{ secrets.VERCEL_ACCOUNT_TOKEN }}
+  VERCEL_API_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
+  TF_VAR_vercel_api_token: ${{ secrets.VERCEL_API_TOKEN }}
   TF_VAR_passphrase: ${{ secrets.TF_VAR_PASSPHRASE }}
   TF_VAR_my_secret_var: ${{ secrets.TF_VAR_MY_SECRET_VAR }}
 
