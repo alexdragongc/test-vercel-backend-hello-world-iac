@@ -6,8 +6,8 @@ terraform {
     }
 
     vercel = {
-      source  = "vercel/vercel"
-      version = ">= 2.0"
+      source  = "registry.terraform.io/vercel/vercel"
+      version = "~> 4.6.0"
     }
   }
 
