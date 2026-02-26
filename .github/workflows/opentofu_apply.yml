@@ -24,6 +24,7 @@ jobs:
   apply:
     runs-on: ubuntu-latest
     name: Apply approved Plan (${{ matrix.app }} / ${{ matrix.env }})
+    environment: tofu-production
 
     strategy:
       fail-fast: false
