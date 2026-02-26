@@ -40,6 +40,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Debug token presence
+        run: |
+          if [ -z "${TF_VAR_vercel_api_token}" ]; then
+            echo "TF_VAR_vercel_api_token is EMPTY"
+            exit 1
+          else
+            echo "TF_VAR_vercel_api_token is set (length: ${#TF_VAR_vercel_api_token})"
+          fi
+
       - name: tofu apply
         uses: dflook/tofu-apply@v2
         with:
