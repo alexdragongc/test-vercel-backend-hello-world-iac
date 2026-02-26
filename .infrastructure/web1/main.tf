@@ -89,3 +89,20 @@ resource "vercel_project_environment_variable" "public_api_url" {
   target     = ["production"]
   comment    = "a production variable"
 }
+
+
+variable "my_secret_var" {
+  type      = string
+  ephemeral = true
+  default   = "123"
+}
+
+resource "vercel_project_environment_variable" "my_secret" {
+  project_id = vercel_project.my_project.id
+  key        = "MY_SECRET_API_KEY"
+
+  value_wo = var.my_secret_var # write-only
+
+  target    = ["production"]
+  sensitive = true
+}
