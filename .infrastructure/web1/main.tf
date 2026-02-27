@@ -6,22 +6,11 @@ terraform {
     }
 
     vercel = {
-      source  = "registry.terraform.io/vercel/vercel"
-      version = "~> 4.6.0"
+      source  = "vercel/vercel"
+      version = "~> 4.6"
     }
   }
 
-}
-
-
-variable "vercel_api_token" {
-  type      = string
-  ephemeral = true
-  sensitive = true
-}
-
-provider "vercel" {
-  api_token = var.vercel_api_token
 }
 
 resource "vercel_project" "my_project" {
